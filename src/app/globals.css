@@ -184,3 +184,191 @@
     user-select: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Hero — sinematik 3D arka plan efektleri                            */
+/* ------------------------------------------------------------------ */
+@keyframes heroGlowA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.15);
+  }
+}
+
+@keyframes heroGlowB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-5%, 5%, 0) scale(0.9);
+  }
+}
+
+@keyframes heroScan {
+  0% {
+    transform: translateY(-130%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(130%);
+    opacity: 0;
+  }
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@layer utilities {
+  /* Kumlanma (noise) dokusu — SVG feTurbulence */
+  .hero-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 160px 160px;
+  }
+
+  /* HUD ızgara çizgileri (border-white/5) */
+  .hero-grid-lines {
+    background-image:
+      linear-gradient(
+        to right,
+        rgb(255 255 255 / 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(255 255 255 / 0.05) 1px,
+        transparent 1px
+      );
+    background-size: 44px 44px;
+  }
+
+  .hero-glow-a {
+    animation: heroGlowA 24s ease-in-out infinite;
+  }
+  .hero-glow-b {
+    animation: heroGlowB 30s ease-in-out infinite;
+  }
+  .hero-scan-line {
+    animation: heroScan 7.5s linear infinite;
+  }
+  .hero-float {
+    animation: heroFloat 6.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow-a,
+  .hero-glow-b,
+  .hero-scan-line,
+  .hero-float {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hizmet kartları — hareketli gradyan kenar (çizgi) animasyonu       */
+/* ------------------------------------------------------------------ */
+@property --svc-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes svcBorderSpin {
+  to {
+    --svc-angle: 360deg;
+  }
+}
+
+@layer components {
+  .service-card {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Statik zarif gradyan kenarlık — kart sade görünmesin */
+  .service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      var(--color-border-hairline) 0%,
+      rgba(0, 151, 178, 0.55) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Etkileşimde kenar boyunca dönen neon "çizgi" */
+  .service-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--svc-angle),
+      transparent 0deg,
+      var(--color-tech-cyan) 70deg,
+      var(--color-signal) 150deg,
+      transparent 230deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .service-card:hover::after {
+      opacity: 1;
+      animation: svcBorderSpin 3.5s linear infinite;
+    }
+  }
+
+  .service-card:focus-within::after {
+    opacity: 1;
+    animation: svcBorderSpin 3.5s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-card::after {
+      animation: none !important;
+    }
+  }
+}

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Icon from "@/components/Icon";
 import { images, principles } from "@/lib/site";
 
@@ -10,39 +9,51 @@ export default function About() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="grid grid-cols-1 items-center gap-space-xl lg:grid-cols-12 lg:gap-space-2xl">
-          <div className="relative lg:col-span-6">
-            <div className="grid grid-cols-2 gap-space-md">
-              <div className="space-y-space-md">
-                <div className="overflow-hidden rounded border border-border-hairline bg-surface-container-low shadow-sm">
-                  <Image
-                    src={images.aboutEquipment}
-                    alt="Defne Güvenlik ekipman ve donanım masası"
-                    width={600}
-                    height={400}
-                    sizes="(min-width: 1024px) 25vw, 50vw"
-                    className="h-64 w-full object-cover"
-                  />
-                </div>
-                <div className="rounded bg-primary-container p-space-md text-surface-bright">
-                  <span className="mb-1 block font-body text-label-technical uppercase tracking-wider text-secondary-fixed-dim">
-                    Doğrulanmış Saha Konumu
-                  </span>
-                  <p className="font-display text-title-md">
-                    İvrindi / Balıkesir Merkezli Teknik Hizmet Ağı
-                  </p>
+          <div className="relative flex flex-col gap-space-md lg:col-span-6">
+            <div className="relative overflow-hidden rounded border border-border-hairline bg-primary shadow-xl">
+              <div className="relative aspect-video w-full">
+                <video
+                  className="absolute inset-0 h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={images.aboutRack}
+                  aria-label="Defne Güvenlik saha kurulum ve montaj çalışmaları"
+                >
+                  <source src="/kamera.mp4" type="video/mp4" />
+                </video>
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+
+                <div className="absolute right-4 bottom-4 left-4 flex">
+                  <div className="inline-flex items-center gap-space-xs rounded-lg border border-white/20 bg-white/10 px-3.5 py-2.5 shadow-lg backdrop-blur-md">
+                    <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-status-active" />
+                    <span className="font-body text-label-technical font-medium uppercase tracking-wider text-white">
+                      İvrindi / Balıkesir Merkezli Teknik Hizmet Ağımız
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="pt-space-lg">
-                <div className="h-80 overflow-hidden rounded border border-border-hairline bg-surface-container-low shadow-sm">
-                  <Image
-                    src={images.aboutRack}
-                    alt="Düzenli cat6 kablolaması yapılmış metal sunucu kabini"
-                    width={600}
-                    height={640}
-                    sizes="(min-width: 1024px) 25vw, 50vw"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+            </div>
+
+            <div className="relative overflow-hidden rounded border border-border-hairline bg-primary shadow-xl">
+              <div className="relative aspect-video w-full">
+                <video
+                  className="absolute inset-0 h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={images.aboutEquipment}
+                  aria-label="Merkezi kayıt paneli ve güvenlik kontrol istasyonu"
+                >
+                  <source src="/panel.mp4" type="video/mp4" />
+                </video>
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
               </div>
             </div>
           </div>

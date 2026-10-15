@@ -27,7 +27,7 @@ export default function Services() {
           {services.map((service) => (
             <div
               key={service.index}
-              className="group flex flex-col justify-between rounded border border-border-hairline bg-surface-container-lowest p-space-lg shadow-sm transition-shadow hover:shadow-md"
+              className="service-card group flex flex-col justify-between rounded bg-surface-container-lowest p-space-lg shadow-sm transition-shadow hover:shadow-[0_14px_34px_-16px_rgba(0,151,178,0.55)]"
             >
               <div>
                 <div className="mb-space-md flex h-12 w-12 items-center justify-center rounded bg-surface-container-low text-secondary transition-colors group-hover:bg-primary-container group-hover:text-surface-bright">

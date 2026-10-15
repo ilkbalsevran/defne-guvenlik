@@ -68,6 +68,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="bg-surface font-body text-on-surface antialiased">
+        <div
+          aria-hidden="true"
+          className="hero-noise pointer-events-none fixed inset-0 z-[60] opacity-[0.03] mix-blend-multiply"
+        />
         <Header />
         <main className="w-full bg-surface pt-20">{children}</main>
         <Footer />
