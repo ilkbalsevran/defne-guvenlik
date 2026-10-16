@@ -1,15 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
 import { images, navLinks, siteConfig } from "@/lib/site";
 
-const sectionIds = ["top", "hizmetler", "hakkimizda", "projeler", "teklif"];
+const sectionIds = ["top", "hizmetler", "hakkimizda", "projeler", "iletisim"];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("top");
+  const [observedSection, setActive] = useState("top");
+  const pathname = usePathname();
+  // Bölüm vurgusu yalnızca ana sayfada anlamlı; diğer sayfalarda hiçbir menü öğesi aktif değil.
+  const active = pathname === "/" ? observedSection : null;
   const drawerRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
@@ -82,7 +87,7 @@ export default function Header() {
     <>
       <header className="fixed top-0 left-0 z-50 w-full bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-12">
-          <a href="#top" className="flex items-center gap-3" onClick={closeDrawer}>
+          <Link href="/#top" className="flex items-center gap-3" onClick={closeDrawer}>
             <Image
               src={images.logo}
               alt={`${siteConfig.name} logo`}
@@ -93,19 +98,19 @@ export default function Header() {
             />
             <span className="flex flex-col">
               <span className="font-display text-headline-sm font-bold uppercase leading-none tracking-tight text-primary">
-                DEFNE GÜVENLİK
+                {siteConfig.name.toLocaleUpperCase("tr-TR")}
               </span>
               <span className="mt-0.5 font-body text-label-technical font-semibold uppercase tracking-widest text-secondary">
                 {siteConfig.tagline}
               </span>
             </span>
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-space-sm xl:flex">
             {navLinks.map((link) => {
               const isActive = active === link.id;
               return (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   aria-current={isActive ? "page" : undefined}
@@ -116,7 +121,7 @@ export default function Header() {
                   }`}
                 >
                   {link.label}
-                </a>
+                </Link>
               );
             })}
           </nav>
@@ -124,7 +129,7 @@ export default function Header() {
           <div className="flex items-center gap-space-lg">
             <div className="hidden flex-col text-right md:flex">
               <span className="whitespace-nowrap font-body text-label-technical uppercase tracking-wider text-on-surface-variant">
-                7/24 TEKNİK DESTEK
+                7/24 Acil Çağrı Hattı
               </span>
               <a
                 href={siteConfig.phoneHref}
@@ -134,14 +139,14 @@ export default function Header() {
               </a>
             </div>
 
-            <a
-              href="#teklif"
+            <Link
+              href="/teklif"
               className="hidden whitespace-nowrap items-center justify-center rounded bg-primary-container px-4 py-2.5 font-display text-title-md text-on-primary shadow-sm transition-all hover:bg-slate-night sm:inline-flex"
             >
               Teklif Al
-            </a>
+            </Link>
             <a
-              href="https://wa.me/905343738890"
+              href={siteConfig.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp'tan iletişime geç"
@@ -233,7 +238,7 @@ export default function Header() {
 
         <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.label}
               href={link.href}
               onClick={closeDrawer}
@@ -245,7 +250,7 @@ export default function Header() {
               }`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -257,14 +262,14 @@ export default function Header() {
             <Icon name="call" className="text-secondary" />
             {siteConfig.phoneDisplay}
           </a>
-          <a
-            href="#teklif"
+          <Link
+            href="/teklif"
             onClick={closeDrawer}
             className="mt-3 flex items-center justify-center gap-space-xs whitespace-nowrap rounded bg-secondary px-5 py-3 font-display text-title-md text-surface-bright transition-colors hover:bg-secondary-fixed-dim hover:text-primary"
           >
             <span>Teklif Al</span>
             <Icon name="send" className="text-sm" />
-          </a>
+          </Link>
           <p className="mt-4 font-body text-label-technical uppercase tracking-wider text-on-surface-variant">
             {siteConfig.workingHours}
           </p>

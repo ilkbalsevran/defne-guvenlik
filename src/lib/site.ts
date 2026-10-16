@@ -3,37 +3,35 @@ export const siteConfig = {
   legalName: "Defne Güvenlik ve Alarm Sistemleri",
   tagline: "Güvenlik & Alarm Sistemleri",
   region: "İvrindi / Balıkesir",
+  serviceArea: "Balıkesir ve tüm ilçeleri",
   phoneDisplay: "0534 373 8890",
   phoneHref: "tel:+905343738890",
+  whatsappUrl: "https://wa.me/905343738890",
   email: "Defneguvenlik2024@outlook.com",
   instagramHandle: "@defne.guvenlik",
   instagramUrl: "https://instagram.com/defne.guvenlik",
+  instagramFollowers: "1.400+",
+  facebookUrl: "https://www.facebook.com/profile.php?id=61566400441988",
   addressLine: "Bedrettin Mah. Koca Müdür Tevfik Bey Cad. No:35/B",
   addressCity: "İvrindi / Balıkesir (PK: 10770)",
   workingHours:
     "Pazartesi – Cumartesi: 08:30 – 19:00 | Acil Çağrı Hattı: 7/24 Aktif",
   since: 2025,
-  copyrightYear: 2025,
 } as const;
 
 export const images = {
-  logo: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7lpgXMggVNnjVETuORz3sf-gDJavzEOtwld_uDri6JW0aq_CeOhpsDxKrQT8h5LXkzlp0qmsU0a24AIo9aSmAY6654OIuAlSHu02c2122dKGYg_ECyAr0Iq0wDA2HHZDJrWzNURZ7ygiGoKCeZ7aJgC9t5-VhSyjIQM-Wz75q3yFVegBkmxVYrC94u3_frgsvnzAjQMCyA6Mt7y42hDEmyBlgsfrsvi9bvJlGgbuTi-fOLbRwp7FjYMAvenf-fKfifuk",
-  heroCamera:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAwIAi7bANHfwgIMZ78gIQUdvpx8HKMWlvzxRe32XovfnI6ZRLbc6XOiUxy3KWoqWFC7CmayeNO0yakg-8PIsj8M6Wa1gekzmBWqQKcABz1Y3rMvBDo16da5Q6wMT3nMQIaiMMKbsp56caRxBkg2btMmUfQtv_n63eDVBW1ORz6nsGvR3sbq0vpJbOkLz1p_2E9D0g1MVVLSvsbanbaF-udQLizONTtotXhmkA7aRou5RjqSRJwcLE_ug",
-  aboutEquipment:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBTZEatJeeXvYuV4BM6tRC4aK9wWMaYzBgJt-bifxT_h3mfwOJ_fLGE0YcjBxXBmOY-pW8TbB8qaTeaHRrCrKBovKDt422bIMsKMEY8UHZFxiFDeycVx_FniEL2Ozn8xedRLBUJ9itgo0ayJUGluJSDOHZ2sMFXe_LSc92oFb9PWxhf8D1p1AnTG_NRaS30fWJR6lruIPiLYrH6ND0k2i0ROUV4tPG2x4wWq_39oop9PVaMBNkK87oCVqQUdLj26TBGtWs",
-  aboutRack:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCwWRXIBdcOWGxB2XlsR4aJqEpbP1PYqL6QISZ9xU1IR0dtnpGtBrNb1TJvOU8w2J4ovot2_KM7dgwYM1L2LDRG37tjR_5EQyuqiKwyQ7-Mml8mE91TNFfCugVmU4lxyD8WBEb6MI8V7uIeMA3PQfOXz_OOCBjXqHYNZVenm9NHXpieyE8aQ8jXegYZf66jRrfq9fnITB760U1T9nialxyCLWTuBMLpGF1THeVjsxHG6sVE-tv-hmSTBw",
+  logo: "/images/logo.jpg",
+  heroCamera: "/images/hero-camera.jpg",
 } as const;
 
 export type NavLink = { label: string; href: string; id: string };
 
 export const navLinks: NavLink[] = [
-  { label: "Ana Sayfa", href: "#top", id: "top" },
-  { label: "Hizmetlerimiz", href: "#hizmetler", id: "hizmetler" },
-  { label: "Hakkımızda", href: "#hakkimizda", id: "hakkimizda" },
-  { label: "Uygulamalar", href: "#projeler", id: "projeler" },
-  { label: "İletişim", href: "#teklif", id: "teklif" },
+  { label: "Ana Sayfa", href: "/#top", id: "top" },
+  { label: "Hizmetlerimiz", href: "/#hizmetler", id: "hizmetler" },
+  { label: "Hakkımızda", href: "/#hakkimizda", id: "hakkimizda" },
+  { label: "Uygulamalar", href: "/#projeler", id: "projeler" },
+  { label: "İletişim", href: "/#iletisim", id: "iletisim" },
 ];
 
 export type Service = {
@@ -43,6 +41,9 @@ export type Service = {
   title: string;
   description: string;
   href: string;
+  /** Hizmet listesinde geniş, vurgulu kart olarak gösterilir. */
+  featured?: boolean;
+  highlights?: string[];
 };
 
 export const services: Service[] = [
@@ -52,8 +53,8 @@ export const services: Service[] = [
     eyebrow: "01 / CCTV TEKNOLOJİSİ",
     title: "Güvenlik Kamera Sistemleri",
     description:
-      "IP ve AHD yüksek çözünürlüklü kameralar, akıllı gece görüş sensörleri, NVR/DVR merkezi kayıt üniteleri ve mobil izleme entegrasyonu.",
-    href: "#teklif",
+      "IP ve AHD yüksek çözünürlüklü kameralar, akıllı gece görüş sensörleri, NVR/DVR merkezi kayıt üniteleri, mobil izleme entegrasyonu ile mevcut sistemlerde arıza tespiti ve onarım.",
+    href: "/teklif?hizmet=kamera",
   },
   {
     index: "02",
@@ -61,8 +62,8 @@ export const services: Service[] = [
     eyebrow: "02 / ÇEVRE GÜVENLİĞİ",
     title: "Hırsız ve Güvenlik Alarmları",
     description:
-      "Kablolu ve kablosuz manyetik kontaklar, PIR hareket sensörleri, sabotaj korumalı harici sirenler ve telefona anlık bildirim sistemi.",
-    href: "#teklif",
+      "Kablolu ve kablosuz manyetik kontaklar, PIR hareket sensörleri, sabotaj korumalı harici sirenler, telefona anlık bildirim, periyodik bakım ve onarım.",
+    href: "/teklif?hizmet=alarm",
   },
   {
     index: "03",
@@ -71,7 +72,7 @@ export const services: Service[] = [
     title: "Yangın Algılama Sistemleri",
     description:
       "Optik duman dedektörleri, ani sıcaklık artış sensörleri ve endüstriyel yangın ihbar butonlarıyla tesisinizin can ve mal emniyeti.",
-    href: "#teklif",
+    href: "/teklif?hizmet=yangin",
   },
   {
     index: "04",
@@ -80,7 +81,7 @@ export const services: Service[] = [
     title: "Güneş Enerjili Kamera Sistemleri",
     description:
       "Elektrik ve internet hattının bulunmadığı çiftlik, tarla, arsa ve şantiye sahaları için 4G SIM kartlı ve akülü solar kamera üniteleri.",
-    href: "#teklif",
+    href: "/teklif?hizmet=gunes",
   },
   {
     index: "05",
@@ -89,7 +90,7 @@ export const services: Service[] = [
     title: "Araç Kamera ve Takip Çözümleri",
     description:
       "Ticari araçlar, servisler ve iş makineleri için çift yönlü yol kayıt cihazları, park halinde gözetim ve araç içi izleme altyapısı.",
-    href: "#teklif",
+    href: "/teklif?hizmet=arac",
   },
   {
     index: "06",
@@ -98,7 +99,23 @@ export const services: Service[] = [
     title: "Çanak Anten & Merkezi Uydu",
     description:
       "Apartman, site ve işletmeler için multiswitch merkezi uydu santralleri, sinyal kalibrasyonu ve bireysel çanak montaj servisleri.",
-    href: "#teklif",
+    href: "/teklif?hizmet=canak",
+  },
+  {
+    index: "07",
+    icon: "build",
+    eyebrow: "07 / TEKNİK SERVİS",
+    title: "Arıza, Bakım ve Onarım",
+    description:
+      "Kamera ve alarm sistemlerinizde arıza tespiti, onarım ve periyodik bakım. Görüntü gelmeyen kamera, kayıt yapmayan cihaz veya sürekli çalan alarm için yerinde teknik servis.",
+    href: "/teklif?hizmet=bakim",
+    featured: true,
+    highlights: [
+      "Kamera tamiri ve parça değişimi",
+      "Alarm sistemi bakım ve onarımı",
+      "Kayıt cihazı ve mobil izleme sorunları",
+      "Periyodik kontrol ve temizlik",
+    ],
   },
 ];
 
@@ -152,6 +169,18 @@ export const steps: Step[] = [
   },
 ];
 
+/** Instagram "öne çıkanlar" başlıklarıyla eşleşen galeri kategorileri. */
+export const galleryCategories = [
+  "IP Sistem",
+  "AHD Sistemler",
+  "O-KAM",
+  "Alarm",
+  "Güneş Enerjili",
+  "Çanak Anten",
+] as const;
+
+export type GalleryCategory = (typeof galleryCategories)[number];
+
 export type GalleryItem = {
   image: string;
   eyebrow: string;
@@ -159,48 +188,49 @@ export type GalleryItem = {
   description: string;
   alt: string;
   wide: boolean;
+  category: GalleryCategory;
 };
 
 export const galleryItems: GalleryItem[] = [
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCWvhUZuyfNuFOHTuJE-48qu7x0qAhy8UNpJ1xi_-0Jb7Qn0tE6MLnSOrNyaLj4AUEqi4GO7I55FrugzOhHVCE320pmSBCuIwNFBdlX39Opz8j7Q9iwVU1uVcuU0rVv5IhMgHKHzizLqNRmNYRO9_yrnM04kpW6cJXf4hro6Upx41XcylK-5arbo3Ax5U0AvUO6bV17qlLSyme8SN9SYZdzHaFXuut4d-xVMNM3KsvMq0xPgQZQ3lMKfA",
+    image: "/images/gallery-depo.jpg",
     eyebrow: "TİCARİ DEPO & LOJİSTİK",
     title: "Ticari Alan IP Kamera Kurulumu",
     description:
       "Geniş açı gece görüşlü kameralar ile 7/24 çevre güvenliği ve tır giriş-çıkış plaka kaydı.",
     alt: "Ticari depo çevresine monte edilmiş harici IP güvenlik kameraları",
     wide: true,
+    category: "IP Sistem",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDohdcouKRxYIX15YSy0cdHa-mL-qvohZreEdMayn6GTXFPLh0ZLPy3Cu3BPqm1mYbTHPHVR2wO7Ld_1JVfhiqK4nYNwqQbdk3Z4EhNZkt2e6o18s6m_NJBM8bPpSs6tLR6_994yDG1AF9A25frAdJRDi0DfDC0hcNZtxtH1-S2bHYEvl2PSw_tQpCTfr8_M43oe2WdBE6j-xRhT-WRKfcdeDaSt-0qXBptPcEnkJoHFXfljA8aZuGvDQ",
+    image: "/images/gallery-konut.jpg",
     eyebrow: "MÜSTAKİL KONUT",
     title: "Müstakil Yaşam Alanı Alarmı",
     description:
       "Kablosuz dedektörler ile mimari dokuyu bozmayan koruma hattı.",
     alt: "Müstakil villada gizli monte alarm ve harici siren ünitesi",
     wide: false,
+    category: "Alarm",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB6C-QrvGQF2wINbHO0o-a4uqfU1K3J-eFzWoNcbq2-WpSRILbf4xef1xC6QLGvsjjVknKo4oaMjno7sxzZEbLEdIAXGWwsRanEifyI4ALEHSErCZTidDf94Yl9BRLA5fsUeQedcAKH-eJBQZO4k-ZT9WOo-7ki5GmD3pAEVR7_4qn9TkW3JRBXOxwtSeo5zgu3c5uN2jPrmZy5i9e3sZBMofUPjZt2HD1x3rdmeSlKmgq6Zmx-ZmkH7w",
+    image: "/images/gallery-tarim.jpg",
     eyebrow: "KIRSAL ALTYAPI",
     title: "Tarımsal Saha Güneş Enerjili Sistem",
     description:
       "Elektriksiz arazilerde bağımsız bataryalı mobil izleme çözümü.",
     alt: "Zeytin bahçesinde güneş paneli ve 4G PTZ güvenlik kamerası",
     wide: false,
+    category: "Güneş Enerjili",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBkFzUF7CAhHGOjq8gBYqdinLI8tcV3qT2xGCqPP2tnVMSBHkmZQCxTY1255YsxJMykhPzDgZ9p2hKoLuvk-Pp804Il3O1RboXYCl0Kfu8S1P8TFXYcLf1dljFohxKCnRQZkTBLlcKrW-BWt88CFpNA_WDifdeah_tHeWS4lgBFIq5Dh3Mr3fPlCFt-8v6jWzlelCt6FP7NKyCeUqVxEleNbSVdbQHS5_DdTzKmincmeBsUCZZ0vD_73A",
+    image: "/images/gallery-kontrol.jpg",
     eyebrow: "MERKEZİ KONTROL",
     title: "Merkezi Kayıt ve İzleme İstasyonu",
     description:
       "32 kanallı NVR altyapısı ile çok noktalı yedekli yerel depolama ve kesintisiz güç kaynağı.",
     alt: "Canlı kamera görüntülerini gösteren merkezi güvenlik izleme konsolu",
     wide: true,
+    category: "IP Sistem",
   },
 ];
 
@@ -211,6 +241,7 @@ export const serviceTypeOptions = [
   { value: "gunes", label: "Güneş Paneli Destekli Bağımsız Kamera" },
   { value: "arac", label: "Araç Kamera & Takip Sistemleri" },
   { value: "canak", label: "Çanak Anten & Merkezi Uydu" },
+  { value: "bakim", label: "Arıza / Bakım / Onarım" },
   { value: "diger", label: "Diğer / Kapsamlı Proje" },
 ] as const;
 
@@ -222,4 +253,128 @@ export const propertyTypeOptions = [
   { value: "site", label: "Apartman / Toplu Konut Sitesi" },
 ] as const;
 
-export const certifications = ["ISO 9001", "TSE-HYB", "CE GÜVENCE"];
+
+export const infrastructureOptions = [
+  { value: "tam", label: "Elektrik ve internet var" },
+  { value: "internet-yok", label: "Elektrik var, internet yok" },
+  { value: "elektrik-yok", label: "İnternet var, elektrik yok" },
+  { value: "hicbiri", label: "Elektrik ve internet yok" },
+] as const;
+
+export const cameraCountOptions = [
+  { value: "1-2", label: "1–2" },
+  { value: "3-4", label: "3–4" },
+  { value: "5-8", label: "5–8" },
+  { value: "9-16", label: "9–16" },
+  { value: "16+", label: "16+" },
+  { value: "kesif", label: "Keşifte belirlensin" },
+] as const;
+
+export const areaOptions = [
+  { value: "kucuk", label: "Küçük (0–50 m²)" },
+  { value: "orta", label: "Orta (51–150 m²)" },
+  { value: "buyuk", label: "Büyük (151–500 m²)" },
+  { value: "cok-buyuk", label: "Çok büyük (500+ m²)" },
+] as const;
+
+export const urgencyOptions = [
+  { value: "yakin", label: "En yakın zamanda" },
+  { value: "acil", label: "Acil" },
+  { value: "1-2-hafta", label: "1–2 hafta içinde" },
+  { value: "fiyat", label: "Fiyat alıp düşüneceğim" },
+] as const;
+
+export const quoteSteps = [
+  {
+    title: "Formu doldurun",
+    description: "Mekanınızı ve ihtiyacınızı birkaç adımda anlatın.",
+  },
+  {
+    title: "WhatsApp veya e-posta ile iletin",
+    description: "Talebiniz hazır bir mesaj olarak açılır, tek dokunuşla gönderirsiniz.",
+  },
+  {
+    title: "Ücretsiz keşif",
+    description: "Ekibimiz sizi arar, sahanızı yerinde inceleyip size özel teklif hazırlar.",
+  },
+];
+
+/** Hizmet verilen Balıkesir ilçeleri (alfabetik). */
+export const districts = [
+  "Altıeylül",
+  "Ayvalık",
+  "Balya",
+  "Bandırma",
+  "Bigadiç",
+  "Burhaniye",
+  "Dursunbey",
+  "Edremit",
+  "Erdek",
+  "Gömeç",
+  "Gönen",
+  "Havran",
+  "İvrindi",
+  "Karesi",
+  "Kepsut",
+  "Manyas",
+  "Marmara",
+  "Savaştepe",
+  "Sındırgı",
+  "Susurluk",
+];
+
+export const legalLinks = [
+  { label: "KVKK Aydınlatma Metni", href: "/kvkk" },
+  { label: "Çerez Politikası", href: "/cerez-politikasi" },
+  { label: "Kullanım Koşulları", href: "/kullanim-kosullari" },
+];
+
+export type FaqItem = {
+  question: string;
+  answer: string;
+  id: number;
+};
+
+export const faqItems: FaqItem[] = [
+  {
+    id: 7,
+    question: "Hangi bölgelere hizmet veriyorsunuz?",
+    answer: `Merkezimiz İvrindi'de bulunuyor. Balıkesir'in tüm ilçelerinde (${districts.join(", ")}) keşif, kurulum, bakım ve teknik servis hizmeti veriyoruz.`,
+  },
+  {
+    id: 6,
+    question: "Mevcut kamera veya alarm sistemimde arıza var, onarım yapıyor musunuz?",
+    answer:
+      "Evet. Kamera ve alarm sistemlerinde arıza tespiti, onarım, parça değişimi ve periyodik bakım hizmeti veriyoruz. Görüntü gelmemesi, kaydın durması, mobil uygulamaya bağlanamama veya alarmın sebepsiz çalması gibi sorunlar için telefon ya da WhatsApp üzerinden bize ulaşabilirsiniz.",
+  },
+  {
+    id: 1,
+    question: "Elektrik ve internet olmayan tarla/çiftlik gibi sahalara kamera kurulabilir mi?",
+    answer:
+      "Evet. Elektrik ve internet hattı bulunmayan alanlar için Solar (Güneş) Paneli, dahili akü grubu ve 4G SIM kartlı özel kamera sistemleri kuruyoruz. Sistem kendi enerjisini üreterek 7/24 kesintisiz çalışır.",
+  },
+  {
+    id: 2,
+    question: "Elektrik kesildiğinde güvenlik alarmları ve kameralar çalışmaya devam eder mi?",
+    answer:
+      "Alarm sistemlerimizde bulunan dahili aküler sayesinde elektrik kesilse dahi sisteminiz saatlerce aktif kalır ve merkeze/telefonunuza bildirim göndermeye devam eder. Kamera sistemlerinde ise kesintisiz güç kaynağı (UPS) entegrasyonu sağlamaktayız.",
+  },
+  {
+    id: 3,
+    question: "Kamera görüntülerini cep telefonumdan canlı izleyebilir miyim?",
+    answer:
+      "Evet. Kurduğumuz tüm IP ve AHD modern sistemler, cep telefonunuza yükleyeceğimiz ücretsiz mobil uygulama üzerinden 7/24 canlı ve geçmişe dönük izleme olanağı sunar.",
+  },
+  {
+    id: 4,
+    question: "ColorVu (Gece Renkli) kameraların farkı nedir?",
+    answer:
+      "Geleneksel kameralar gece siyah-beyaz görüntü verirken, ColorVu teknolojili yüksek hassasiyetli sensörler zifiri karanlıkta dahi renkli, net ve detaylı görüntü almanızı sağlar.",
+  },
+  {
+    id: 5,
+    question: "Keşif ve montaj süreci nasıl ilerliyor?",
+    answer:
+      `İletişim kanallarımız veya ${siteConfig.phoneDisplay} numaralı hattımız üzerinden bize ulaştığınızda sahanıza özel keşif yapıyoruz. İhtiyacınıza en uygun sistemi belirleyip onayınızın ardından hızlıca montaj ve mobil kurulumu tamamlıyoruz.`,
+  },
+];

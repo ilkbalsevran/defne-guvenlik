@@ -1,5 +1,7 @@
+import Link from "next/link";
 import Icon from "@/components/Icon";
-import { images, principles } from "@/lib/site";
+import LazyVideo from "@/components/LazyVideo";
+import { principles } from "@/lib/site";
 
 export default function About() {
   return (
@@ -12,18 +14,12 @@ export default function About() {
           <div className="relative flex flex-col gap-space-md lg:col-span-6">
             <div className="relative overflow-hidden rounded border border-border-hairline bg-primary shadow-xl">
               <div className="relative aspect-video w-full">
-                <video
+                <LazyVideo
                   className="absolute inset-0 h-full w-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  poster={images.aboutRack}
-                  aria-label="Defne Güvenlik saha kurulum ve montaj çalışmaları"
-                >
-                  <source src="/kamera.mp4" type="video/mp4" />
-                </video>
+                  src="/videos/kamera.mp4"
+                  poster="/videos/kamera-poster.jpg"
+                  label="Defne Güvenlik saha kurulum ve montaj çalışmaları"
+                />
 
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
@@ -31,7 +27,7 @@ export default function About() {
                   <div className="inline-flex items-center gap-space-xs rounded-lg border border-white/20 bg-white/10 px-3.5 py-2.5 shadow-lg backdrop-blur-md">
                     <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-status-active" />
                     <span className="font-body text-label-technical font-medium uppercase tracking-wider text-white">
-                      İvrindi / Balıkesir Merkezli Teknik Hizmet Ağımız
+                      İvrindi Merkezli · Balıkesir&apos;in Tüm İlçelerinde Hizmet
                     </span>
                   </div>
                 </div>
@@ -40,18 +36,12 @@ export default function About() {
 
             <div className="relative overflow-hidden rounded border border-border-hairline bg-primary shadow-xl">
               <div className="relative aspect-video w-full">
-                <video
+                <LazyVideo
                   className="absolute inset-0 h-full w-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  poster={images.aboutEquipment}
-                  aria-label="Merkezi kayıt paneli ve güvenlik kontrol istasyonu"
-                >
-                  <source src="/panel.mp4" type="video/mp4" />
-                </video>
+                  src="/videos/panel.mp4"
+                  poster="/videos/panel-poster.jpg"
+                  label="Merkezi kayıt paneli ve güvenlik kontrol istasyonu"
+                />
 
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
               </div>
@@ -73,7 +63,7 @@ export default function About() {
             <p className="mb-space-lg font-body text-body-md leading-relaxed text-on-surface-variant">
               Gelişigüzel kablo çekimleri ve yetersiz lens konfigürasyonları,
               kritik anlarda sistemleri işlevsiz kılar. Defne Güvenlik olarak
-              İvrindi ve Balıkesir genelinde; bina cephe estetiğini koruyan gizli
+              Balıkesir&apos;in tüm ilçelerinde; bina cephe estetiğini koruyan gizli
               hat çekimleri, dayanıklı konnektör montajı ve kesintisiz kayıt
               testleri ile güvenliğinizi şansa bırakmıyoruz.
             </p>
@@ -97,13 +87,13 @@ export default function About() {
               ))}
             </div>
 
-            <a
-              href="#teklif"
+            <Link
+              href="/teklif"
               className="inline-flex items-center gap-space-xs rounded bg-surface-container-high px-6 py-3 font-display text-title-md text-primary transition-colors hover:bg-surface-container-highest"
             >
-              <span>Hakkımızda Detaylı Bilgi</span>
+              <span>Ücretsiz Keşif Talep Edin</span>
               <Icon name="arrow_forward" className="text-sm" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

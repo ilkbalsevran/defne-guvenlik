@@ -160,6 +160,18 @@
     padding: 0;
   }
 
+  /* Sabit header (h-20) anchor hedeflerinin üstünü kapatmasın */
+  html {
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
@@ -370,5 +382,38 @@
     .service-card::after {
       animation: none !important;
     }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Yasal metin sayfaları                                              */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .legal-content > * + * {
+    margin-top: var(--spacing-space-md);
+  }
+
+  .legal-content h2 {
+    margin-top: var(--spacing-space-xl);
+    font-family: var(--font-display);
+    font-size: var(--text-headline-sm);
+    line-height: var(--text-headline-sm--line-height);
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .legal-content ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .legal-content li + li {
+    margin-top: var(--spacing-space-xs);
+  }
+
+  .legal-content a {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 }

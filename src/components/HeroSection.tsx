@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
 import HeroBackground from "@/components/HeroBackground";
@@ -100,7 +101,7 @@ export default function HeroSection() {
           <div className="z-10 flex flex-col items-start lg:col-span-7">
             <div className="mb-space-lg inline-flex items-center gap-space-xs rounded border border-white/10 bg-white/5 px-3 py-1.5 font-body text-label-technical uppercase tracking-wider text-secondary-fixed-dim backdrop-blur-md">
               <span className="h-2 w-2 animate-pulse rounded-full bg-status-active" />
-              <span>Balıkesir &amp; İvrindi Saha Mühendisliği</span>
+              <span>Balıkesir &amp; Tüm İlçeleri Saha Mühendisliği</span>
               <span className="text-white/30">|</span>
               <span className="font-medium text-surface-bright/80">
                 IP67 Endüstriyel Standart
@@ -118,12 +119,12 @@ export default function HeroSection() {
             </p>
 
             <div className="flex w-full flex-wrap items-center gap-space-md sm:w-auto">
-              <a
-                href="#teklif"
+              <Link
+                href="/teklif"
                 className="inline-flex items-center justify-center whitespace-nowrap rounded bg-secondary px-7 py-3.5 font-display text-title-md text-on-secondary shadow-[0_0_24px_-6px_rgba(0,151,178,0.7)] transition-all hover:-translate-y-0.5 hover:bg-secondary-fixed-dim hover:text-on-secondary-container"
               >
                 Teklif Al
-              </a>
+              </Link>
               <a
                 href="#hizmetler"
                 className="inline-flex items-center justify-center whitespace-nowrap rounded border border-white/10 bg-white/5 px-7 py-3.5 font-display text-title-md text-surface-bright backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/10"
