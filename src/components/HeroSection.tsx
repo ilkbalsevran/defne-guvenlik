@@ -13,9 +13,22 @@ const stats = [
   { label: "Teknik Servis", value: "Bölgesel Hızlı Yanıt" },
 ];
 
+/**
+ * Lensin kamera kartındaki konumu (yüzde). Görsel 512×279, 4:5 kutuda
+ * object-cover ile ortadan kırpılıyor; lens görselde ~(280, 160) px'te.
+ */
+const LENS = { x: 60.7, y: 57.3 };
+/** Takip SVG'sinin koordinat sistemi: kartın 4:5 oranıyla aynı. */
+const VIEW_W = 80;
+const VIEW_H = 100;
+
 /** Fare konumunu -1..1 aralığına normalize ederek CSS değişkenine yazar. */
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
+  const coneRef = useRef<SVGPolygonElement>(null);
+  const coneGradientRef = useRef<SVGLinearGradientElement>(null);
+  const readoutRef = useRef<HTMLSpanElement>(null);
   const [tiltEnabled, setTiltEnabled] = useState(false);
 
   useEffect(() => {
@@ -32,19 +45,69 @@ export default function HeroSection() {
 
     const target = { x: 0, y: 0 };
     const current = { x: 0, y: 0 };
+    // Kamera kartı içindeki hedef nokta (0..1); dışarıdayken kenara yapışır.
+    const aimTarget = { x: 0.5, y: 0.5 };
+    const aim = { x: 0.5, y: 0.5 };
     let raf = 0;
     let running = false;
+
+    const renderAim = () => {
+      const view = viewRef.current;
+      if (!view) return;
+      view.style.setProperty("--px", aim.x.toFixed(4));
+      view.style.setProperty("--py", aim.y.toFixed(4));
+
+      const lx = (LENS.x / 100) * VIEW_W;
+      const ly = (LENS.y / 100) * VIEW_H;
+      const tx = aim.x * VIEW_W;
+      const ty = aim.y * VIEW_H;
+      const dx = tx - lx;
+      const dy = ty - ly;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len;
+      const ny = dx / len;
+      const near = 1.2;
+      const far = Math.min(9, len * 0.35);
+
+      coneRef.current?.setAttribute(
+        "points",
+        [
+          [lx + nx * near, ly + ny * near],
+          [tx + nx * far, ty + ny * far],
+          [tx - nx * far, ty - ny * far],
+          [lx - nx * near, ly - ny * near],
+        ]
+          .map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`)
+          .join(" "),
+      );
+      const gradient = coneGradientRef.current;
+      if (gradient) {
+        gradient.setAttribute("x1", lx.toFixed(2));
+        gradient.setAttribute("y1", ly.toFixed(2));
+        gradient.setAttribute("x2", tx.toFixed(2));
+        gradient.setAttribute("y2", ty.toFixed(2));
+      }
+      if (readoutRef.current) {
+        const fmt = (v: number) => Math.round(v * 999).toString().padStart(3, "0");
+        readoutRef.current.textContent = `X${fmt(aim.x)} Y${fmt(aim.y)}`;
+      }
+    };
 
     const render = () => {
       current.x += (target.x - current.x) * 0.12;
       current.y += (target.y - current.y) * 0.12;
+      aim.x += (aimTarget.x - aim.x) * 0.1;
+      aim.y += (aimTarget.y - aim.y) * 0.1;
 
       section.style.setProperty("--mx", current.x.toFixed(4));
       section.style.setProperty("--my", current.y.toFixed(4));
+      renderAim();
 
       if (
         Math.abs(target.x - current.x) > 0.0005 ||
-        Math.abs(target.y - current.y) > 0.0005
+        Math.abs(target.y - current.y) > 0.0005 ||
+        Math.abs(aimTarget.x - aim.x) > 0.0005 ||
+        Math.abs(aimTarget.y - aim.y) > 0.0005
       ) {
         raf = requestAnimationFrame(render);
       } else {
@@ -63,14 +126,28 @@ export default function HeroSection() {
       const rect = section.getBoundingClientRect();
       target.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       target.y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+
+      const view = viewRef.current;
+      if (view) {
+        const v = view.getBoundingClientRect();
+        const clamp = (n: number, min: number, max: number) =>
+          Math.min(max, Math.max(min, n));
+        // Dikeyde üst HUD ve alt bilgi panelinin arasında kalır.
+        aimTarget.x = clamp((event.clientX - v.left) / v.width, 0.08, 0.92);
+        aimTarget.y = clamp((event.clientY - v.top) / v.height, 0.16, 0.74);
+      }
       schedule();
     };
 
     const onLeave = () => {
       target.x = 0;
       target.y = 0;
+      aimTarget.x = 0.5;
+      aimTarget.y = 0.5;
       schedule();
     };
+
+    renderAim();
 
     section.addEventListener("pointermove", onMove);
     section.addEventListener("pointerleave", onLeave);
@@ -178,7 +255,10 @@ export default function HeroSection() {
               style={tiltEnabled ? { transform: cardTransform } : undefined}
             >
               <div className="relative overflow-hidden rounded bg-slate-night p-2 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded bg-primary">
+                <div
+                  ref={viewRef}
+                  className="relative aspect-[4/5] w-full overflow-hidden rounded bg-primary"
+                >
                   <Image
                     src={images.heroCamera}
                     alt="Modern CCTV sensör donanımı ve kamera lensi yakın plan görünümü"
@@ -188,6 +268,55 @@ export default function HeroSection() {
                     priority
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-night via-transparent to-black/40" />
+
+                  {/* 5) Fareyi takip eden görüş konisi ve hedef aydınlatması */}
+                  {tiltEnabled && (
+                    <>
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 mix-blend-screen"
+                        style={{
+                          background:
+                            "radial-gradient(circle at calc(var(--px, 0.5) * 100%) calc(var(--py, 0.5) * 100%), rgba(0, 151, 178, 0.28), transparent 22%)",
+                        }}
+                      />
+                      <svg
+                        aria-hidden="true"
+                        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+                        className="pointer-events-none absolute inset-0 h-full w-full text-secondary-fixed-dim"
+                      >
+                        <defs>
+                          <linearGradient
+                            ref={coneGradientRef}
+                            id="hero-cone-gradient"
+                            gradientUnits="userSpaceOnUse"
+                          >
+                            <stop offset="0" stopColor="currentColor" stopOpacity="0.45" />
+                            <stop offset="1" stopColor="currentColor" stopOpacity="0.04" />
+                          </linearGradient>
+                        </defs>
+                        <polygon ref={coneRef} fill="url(#hero-cone-gradient)" />
+                      </svg>
+                    </>
+                  )}
+
+                  {/* 6) Lens: parlayan halka, kayıt ışığı ve imlece kayan yansıma */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute aspect-square w-[7%] -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${LENS.x}%`, top: `${LENS.y}%` }}
+                  >
+                    <span className="absolute inset-0 rounded-full ring-1 ring-secondary-fixed-dim/70 shadow-[0_0_14px_2px_rgba(0,151,178,0.55)]" />
+                    <span className="absolute -inset-[35%] animate-ping rounded-full border border-secondary-fixed-dim/30 [animation-duration:2.4s]" />
+                    <span
+                      className="absolute top-1/2 left-1/2 h-[28%] w-[28%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80 blur-[1px]"
+                      style={{
+                        marginLeft: `calc((var(--px, 0.5) - ${LENS.x / 100}) * 30%)`,
+                        marginTop: `calc((var(--py, 0.5) - ${LENS.y / 100}) * 30%)`,
+                      }}
+                    />
+                    <span className="absolute -top-[40%] -right-[40%] h-1.5 w-1.5 animate-pulse rounded-full bg-red-500 shadow-[0_0_6px_1px_rgba(239,68,68,0.8)]" />
+                  </div>
 
                   <div className="absolute top-3 right-3 left-3 z-10 flex items-center justify-between font-body text-label-technical text-surface-bright">
                     <div className="flex items-center gap-2 rounded bg-slate-night/85 px-2.5 py-1 backdrop-blur-sm">
@@ -203,7 +332,15 @@ export default function HeroSection() {
                     </div>
                   </div>
 
-                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40">
+                  <div
+                    className={`pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 justify-center ${
+                      tiltEnabled ? "opacity-80" : "opacity-40"
+                    }`}
+                    style={{
+                      left: "calc(var(--px, 0.5) * 100%)",
+                      top: "calc(var(--py, 0.5) * 100%)",
+                    }}
+                  >
                     <svg
                       width={64}
                       height={64}
@@ -253,6 +390,12 @@ export default function HeroSection() {
                         strokeWidth="1"
                       />
                     </svg>
+                    {tiltEnabled && (
+                      <span
+                        ref={readoutRef}
+                        className="absolute top-full mt-1 whitespace-nowrap rounded bg-slate-night/70 px-1.5 py-0.5 font-body text-[10px] tracking-widest text-secondary-fixed-dim"
+                      />
+                    )}
                   </div>
 
                   <div className="absolute right-3 bottom-3 left-3 z-10 rounded bg-slate-night/90 p-space-sm text-surface-bright backdrop-blur-sm">
