@@ -1,45 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { faqItems, siteConfig } from "@/lib/site";
 
-type FaqItem = {
-  question: string;
-  answer: string;
-  id: number;
-};
-
-const faqItems: FaqItem[] = [
-  {
-    id: 1,
-    question: "Elektrik ve internet olmayan tarla/çiftlik gibi sahalara kamera kurulabilir mi?",
-    answer:
-      "Evet. Elektrik ve internet hattı bulunmayan alanlar için Solar (Güneş) Paneli, dahili akü grubu ve 4G SIM kartlı özel kamera sistemleri kuruyoruz. Sistem kendi enerjisini üreterek 7/24 kesintisiz çalışır.",
-  },
-  {
-    id: 2,
-    question: "Elektrik kesildiğinde güvenlik alarmları ve kameralar çalışmaya devam eder mi?",
-    answer:
-      "Alarm sistemlerimizde bulunan dahili aküler sayesinde elektrik kesilse dahi sisteminiz saatlerce aktif kalır ve merkeze/telefonunuza bildirim göndermeye devam eder. Kamera sistemlerinde ise kesintisiz güç kaynağı (UPS) entegrasyonu sağlamaktayız.",
-  },
-  {
-    id: 3,
-    question: "Kamera görüntülerini cep telefonumdan canlı izleyebilir miyim?",
-    answer:
-      "Evet. Kurduğumuz tüm IP ve AHD modern sistemler, cep telefonunuza yükleyeceğimiz ücretsiz mobil uygulama üzerinden 7/24 canlı ve geçmişe dönük izleme olanağı sunar.",
-  },
-  {
-    id: 4,
-    question: "ColorVu (Gece Renkli) kameraların farkı nedir?",
-    answer:
-      "Geleneksel kameralar gece siyah-beyaz görüntü verirken, ColorVu teknolojili yüksek hassasiyetli sensörler zifiri karanlıkta dahi renkli, net ve detaylı görüntü almanızı sağlar.",
-  },
-  {
-    id: 5,
-    question: "Keşif ve montaj süreci nasıl ilerliyor?",
-    answer:
-      "İletişim kanallarımız veya iletişim numaramız (0534 373 8890) üzerinden bize ulaştığınızda sahanıza özel keşif yapıyoruz. İhtiyacınıza en uygun sistemi belirleyip onayınızın ardından hızlıca montaj ve mobil kurulumu tamamlıyoruz.",
-  },
-];
 
 export default function FaqAccordion() {
   const [openItem, setOpenItem] = useState<number | null>(null);
@@ -51,29 +14,32 @@ export default function FaqAccordion() {
   return (
     <section
       id="sikca-sorulan-sorular"
-      className="relative w-full bg-slate-950 px-4 py-12 text-white sm:px-6 lg:px-10 lg:py-16"
+      className="relative isolate w-full bg-slate-night py-space-2xl text-surface-bright lg:py-space-3xl"
       aria-labelledby="faq-heading"
     >
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.12),_transparent_55%),_radial-gradient(ellipse_at_bottom,_rgba(59,130,246,0.10),_transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(0,151,178,0.14),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[1px] bg-gradient-to-r from-transparent via-secondary-fixed-dim/40 to-transparent" />
 
-      <div className="mx-auto max-w-4xl">
-        <header className="mb-8 text-center sm:mb-10">
-          <h2 id="faq-heading" className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+      <div className="mx-auto max-w-4xl px-6 lg:px-12">
+        <header className="mb-space-xl text-center">
+          <span className="mb-space-xs block font-body text-label-technical uppercase tracking-widest text-secondary-fixed-dim">
+            Merak Edilenler
+          </span>
+          <h2 id="faq-heading" className="font-display text-headline-lg-mobile tracking-tight text-surface-bright md:text-headline-lg">
             Sıkça Sorulan Sorular
           </h2>
-          <p className="mt-2 text-sm text-slate-300 sm:text-base">
+          <p className="mt-space-xs font-body text-body-lg text-on-primary-container">
             Aklınıza takılan tüm soruların yanıtları burada
           </p>
         </header>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-space-sm">
           {faqItems.map((item) => {
             const isOpen = openItem === item.id;
             return (
               <article
                 key={item.id}
-                className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-md"
+                className="overflow-hidden rounded border border-border-dark bg-primary-container"
               >
                 <button
                   type="button"
@@ -81,13 +47,13 @@ export default function FaqAccordion() {
                   aria-expanded={isOpen}
                   aria-controls={`faq-panel-${item.id}`}
                   id={`faq-trigger-${item.id}`}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/5 sm:px-6"
+                  className="flex w-full items-center justify-between gap-space-md px-space-lg py-space-md text-left transition-colors hover:bg-white/5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-secondary-fixed-dim"
                 >
-                  <span className="text-base font-medium text-slate-100 sm:text-lg">
+                  <span className="font-display text-title-md text-surface-bright">
                     {item.question}
                   </span>
                   <svg
-                    className={`h-5 w-5 shrink-0 text-cyan-300 transition-transform duration-300 ${
+                    className={`h-5 w-5 shrink-0 text-secondary-fixed-dim transition-transform duration-300 ${
                       isOpen ? "rotate-180" : "rotate-0"
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +76,7 @@ export default function FaqAccordion() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="border-t border-white/10 px-5 py-4 text-sm leading-relaxed text-slate-300 sm:px-6 sm:text-base">
+                    <div className="border-t border-border-dark px-space-lg py-space-md font-body text-body-md text-surface-container-highest">
                       {item.answer}
                     </div>
                   </div>
@@ -120,19 +86,19 @@ export default function FaqAccordion() {
           })}
         </div>
 
-        <aside className="mt-8 rounded-xl border border-cyan-400/40 bg-gradient-to-br from-cyan-400/10 via-transparent to-transparent p-6 text-center backdrop-blur-md sm:p-8">
-          <h3 className="text-lg font-semibold tracking-tight sm:text-xl">
+        <aside className="mt-space-xl rounded border border-secondary/60 bg-secondary/10 p-space-lg text-center">
+          <h3 className="font-display text-headline-sm text-surface-bright">
             Sorunuza yanıt bulamadınız mı?
           </h3>
-          <p className="mt-1 text-sm text-slate-300">
+          <p className="mt-1 font-body text-body-md text-on-primary-container">
             Uzman ekibimizle doğrudan WhatsApp üzerinden iletişime geçebilirsiniz.
           </p>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-space-md flex flex-wrap items-center justify-center gap-space-sm">
             <a
-              href="https://wa.me/905343738890"
+              href={siteConfig.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full border border-emerald-400/60 bg-emerald-500/90 px-6 py-2.5 text-sm font-semibold uppercase tracking-[0.2em] text-white shadow-[0_0_12px_rgba(16,185,129,0.55)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-400 hover:shadow-[0_0_18px_rgba(16,185,129,0.7)]"
+              className="group inline-flex items-center gap-space-xs rounded bg-status-active px-6 py-3 font-display text-title-md text-slate-night shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-400"
             >
               <span>Bize Doğrudan Sorun</span>
               <svg
